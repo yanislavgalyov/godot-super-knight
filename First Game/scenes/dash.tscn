@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://csipd58bayylj"]
+
+[ext_resource type="Script" path="res://scripts/dash.gd" id="1_qaesf"]
+
+[node name="dash" type="Node2D"]
+script = ExtResource("1_qaesf")
+dash_duration = 0.2
+
+[node name="dash_timer" type="Timer" parent="."]
+
+[node name="dash_cd" type="Timer" parent="."]

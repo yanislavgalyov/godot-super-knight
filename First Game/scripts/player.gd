@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@onready var dash = $dash as Dash
 
 const SPEED = 130.0
 const JUMP_VELOCITY = -300.0
@@ -17,6 +18,9 @@ func _physics_process(delta):
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		
+	if Input.is_action_just_pressed("dash"):
+		dash.start_dashing()
 
 	# Get the input direction: -1, 0, 1
 	var direction = Input.get_axis("move_left", "move_right")
@@ -36,10 +40,12 @@ func _physics_process(delta):
 	else:
 		animated_sprite.play("jump")
 	
+	var current_speed: float = dash.get_speed(SPEED)
+	
 	# Apply movement
 	if direction:
-		velocity.x = direction * SPEED
+		velocity.x = direction * current_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, current_speed)
 
 	move_and_slide()
