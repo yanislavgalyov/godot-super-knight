@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="PlayerStats" load_steps=2 format=3 uid="uid://c0vnmepkg126y"]
+
+[ext_resource type="Script" path="res://scripts/player_stats.gd" id="1_fitax"]
+
+[resource]
+script = ExtResource("1_fitax")
+SPEED = 130.0
+JUMP_VELOCITY = -300.0

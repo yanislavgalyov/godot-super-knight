@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 Music="*res://scenes/music.tscn"
 DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
-AutoloadSettings="*res://scripts/autoload_settings.gd"
+AutoloadSettings="*res://scripts/autloloads/autoload_settings.gd"
 
 [display]
 
