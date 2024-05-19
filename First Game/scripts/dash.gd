@@ -12,7 +12,7 @@ var can_dash: bool = true
 func _ready()-> void:
 	dash_timer.wait_time = player_stats.DASH_DURATION
 	dash_timer.timeout.connect(_on_dash_timer_timeout)
-	
+
 	dash_cd.wait_time = player_stats.DASH_COOLDOWN
 	dash_cd.timeout.connect(_on_dash_cd_timeout)
 
@@ -22,13 +22,13 @@ func start_dashing()-> void:
 		can_dash = false
 		dash_timer.start()
 		dash_cd.start()
-	
+
 func get_speed()-> float:
 	return player_stats.DASH_SPEED
-	
+
 func get_acceleration()-> float:
 	return player_stats.DASH_ACCELERATION
-	
+
 func get_is_dashing()-> bool:
 	return is_dashing
 
