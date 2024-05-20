@@ -1,0 +1,69 @@
+[gd_scene load_steps=11 format=3 uid="uid://x3bhv0cmgjk"]
+
+[ext_resource type="Script" path="res://scripts/wise_man.gd" id="1_fq41d"]
+[ext_resource type="PackedScene" uid="uid://bbp11rq4cyu11" path="res://scenes/actionable.tscn" id="2_ebvhs"]
+[ext_resource type="Texture2D" uid="uid://b8cmjj8vq3r8d" path="res://assets/sprites/knight.png" id="3_pmg6x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eq0sc"]
+atlas = ExtResource("3_pmg6x")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_euih6"]
+atlas = ExtResource("3_pmg6x")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvckt"]
+atlas = ExtResource("3_pmg6x")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qbp8"]
+atlas = ExtResource("3_pmg6x")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_81gkq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eq0sc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_euih6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bvckt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qbp8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bvcm0"]
+radius = 5.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_17tlc"]
+size = Vector2(40, 20)
+
+[node name="WiseMan" type="CharacterBody2D"]
+z_index = 5
+collision_mask = 0
+script = ExtResource("1_fq41d")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.478431, 0.239216, 0.270588, 1)
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_81gkq")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_bvcm0")
+
+[node name="Actionable" parent="." instance=ExtResource("2_ebvhs")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable"]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_17tlc")

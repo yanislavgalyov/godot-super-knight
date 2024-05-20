@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_12"
+type="Resource"
+uid="uid://e8qqehmcdh3w"
+path="res://.godot/imported/wise_man_01.dialogue-0a238bf6f5c2e7a3223b0f6199dcb638.tres"
+
+[deps]
+
+source_file="res://dialogue/wise_man_01.dialogue"
+dest_files=["res://.godot/imported/wise_man_01.dialogue-0a238bf6f5c2e7a3223b0f6199dcb638.tres"]
+
+[params]
+
+defaults=true

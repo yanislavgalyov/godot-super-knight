@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cuv4vme4rwno0"]
+[gd_scene load_steps=18 format=3 uid="uid://cuv4vme4rwno0"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_l4ihi"]
 [ext_resource type="PackedScene" uid="uid://dqnaqj8yb6hwd" path="res://scenes/player.tscn" id="1_rbmkf"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://dtrbka1ef726o" path="res://scenes/killzone.tscn" id="5_x8euu"]
 [ext_resource type="PackedScene" uid="uid://d2w2i5h0lhc6l" path="res://scenes/slime.tscn" id="6_l0s6b"]
 [ext_resource type="FontFile" uid="uid://dbjl1e6kdxpl6" path="res://assets/fonts/PixelOperator8.ttf" id="7_8cblx"]
+[ext_resource type="PackedScene" uid="uid://x3bhv0cmgjk" path="res://scenes/wise_man.tscn" id="10_yk2fg"]
+[ext_resource type="Resource" uid="uid://e8qqehmcdh3w" path="res://dialogue/wise_man_01.dialogue" id="11_qi7wf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ashvg"]
 texture = ExtResource("2_r1crl")
@@ -470,6 +472,7 @@ theme_override_fonts/font = ExtResource("2_nlliu")
 theme_override_font_sizes/font_size = 8
 text = "You collected X coins."
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -557,24 +560,26 @@ position = Vector2(529, 81)
 [node name="Labels" type="Node" parent="."]
 
 [node name="Label" type="Label" parent="Labels"]
-offset_left = -62.0
-offset_top = -11.0
-offset_right = 34.0
-offset_bottom = 7.0
+offset_left = -21.0
+offset_top = -50.0
+offset_right = 75.0
+offset_bottom = -32.0
 theme_override_colors/font_color = Color(0.0117647, 0.14902, 0.34902, 1)
 theme_override_fonts/font = ExtResource("7_8cblx")
 theme_override_font_sizes/font_size = 8
 text = "Space to jump."
+vertical_alignment = 1
 
 [node name="Label5" type="Label" parent="Labels"]
-offset_left = -141.0
-offset_top = 62.0
-offset_right = -45.0
-offset_bottom = 80.0
+offset_left = -156.0
+offset_top = 59.0
+offset_right = -60.0
+offset_bottom = 77.0
 theme_override_colors/font_color = Color(0.0117647, 0.14902, 0.34902, 1)
 theme_override_fonts/font = ExtResource("7_8cblx")
 theme_override_font_sizes/font_size = 8
 text = "Q to dash"
+vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="Labels"]
 offset_left = 368.0
@@ -585,24 +590,64 @@ theme_override_colors/font_color = Color(0.0117647, 0.14902, 0.34902, 1)
 theme_override_fonts/font = ExtResource("7_8cblx")
 theme_override_font_sizes/font_size = 8
 text = "Falling hurts..."
+vertical_alignment = 1
 
 [node name="Label3" type="Label" parent="Labels"]
-offset_left = 704.0
-offset_top = -48.0
-offset_right = 800.0
-offset_bottom = -30.0
+offset_left = 710.0
+offset_top = -62.0
+offset_right = 806.0
+offset_bottom = -44.0
 theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
 theme_override_fonts/font = ExtResource("7_8cblx")
 theme_override_font_sizes/font_size = 8
 text = "Almost there..."
+vertical_alignment = 1
 
 [node name="Label4" type="Label" parent="Labels"]
-offset_left = 520.0
-offset_top = -163.0
-offset_right = 616.0
-offset_bottom = -145.0
+offset_left = 516.0
+offset_top = -168.0
+offset_right = 612.0
+offset_bottom = -150.0
 theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
 theme_override_fonts/font = ExtResource("7_8cblx")
 theme_override_font_sizes/font_size = 8
 text = "Great job!"
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label7" type="Label" parent="Labels"]
+offset_left = -214.0
+offset_top = -50.0
+offset_right = -118.0
+offset_bottom = -32.0
+theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
+theme_override_fonts/font = ExtResource("7_8cblx")
+theme_override_font_sizes/font_size = 8
+text = "Wall jump!
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label6" type="Label" parent="Labels"]
+offset_left = -428.0
+offset_top = 35.0
+offset_right = -332.0
+offset_bottom = 53.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_8cblx")
+theme_override_font_sizes/font_size = 8
+text = "E to interact"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NPC" type="Node" parent="."]
+
+[node name="WiseMan" parent="NPC" instance=ExtResource("10_yk2fg")]
+position = Vector2(-402, 80)
+dialogue_resource = ExtResource("11_qi7wf")
+dialogue_start = "wise_man_end_of_word"
+
+[node name="WiseMan2" parent="NPC" instance=ExtResource("10_yk2fg")]
+position = Vector2(510, -96)
+dialogue_resource = ExtResource("11_qi7wf")
+dialogue_start = "wise_man_end_of_the_level"

@@ -6,12 +6,19 @@ extends CharacterBody2D
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var animated_sprite = $AnimatedSprite2D as AnimatedSprite2D
+@onready var actionable_finder = $ActionableFinder as Area2D
 
 func _ready()-> void:
 	# https://www.reddit.com/r/godot/comments/16bormn/comment/jzgsdyd/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
 	safe_margin = 0.1
 
 func _physics_process(delta: float)-> void:
+	if Input.is_action_just_pressed("interact"):
+		var actionables: Array[Area2D] = actionable_finder.get_overlapping_areas()
+		if actionables.size() > 0:
+			actionables[0].action()
+			return
+
 	apply_gravity(delta)
 
 	# Get the input direction: -1, 0, 1
