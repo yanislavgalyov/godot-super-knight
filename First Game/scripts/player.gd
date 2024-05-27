@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-@onready var dash = $dash as Dash
 @export var player_stats: PlayerStats
 @export_range(0, 10) var coyote_frames: int = 4
 @export_range(0, 10) var wall_jump_frames: int = 4
@@ -12,8 +11,13 @@ var physics_ticks_per_second = ProjectSettings.get_setting("physics/common/physi
 @onready var actionable_finder = $ActionableFinder as Area2D
 @onready var coyote_timer = $CoyoteTimer as Timer
 @onready var wall_timer = $WallTimer as Timer
+@onready var dash_duration_timer = $DashDurationTimer as Timer
+@onready var dash_cooldown_timer = $DashCooldownTimer as Timer
 
 var was_wall_normal: Vector2
+
+var is_dashing: bool = false
+var can_dash: bool = true
 
 func _ready()-> void:
 	# https://www.reddit.com/r/godot/comments/16bormn/comment/jzgsdyd/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
@@ -21,6 +25,12 @@ func _ready()-> void:
 
 	coyote_timer.wait_time = float(coyote_frames) / physics_ticks_per_second
 	wall_timer.wait_time = float(wall_jump_frames) / physics_ticks_per_second
+
+	dash_duration_timer.wait_time = player_stats.DASH_DURATION
+	dash_duration_timer.timeout.connect(_on_dash_duration_timer_timeout)
+
+	dash_cooldown_timer.wait_time = player_stats.DASH_COOLDOWN
+	dash_cooldown_timer.timeout.connect(_on_dash_cooldown_timeout)
 
 func _physics_process(delta: float)-> void:
 	if Input.is_action_just_pressed("interact"):
@@ -70,15 +80,19 @@ func handle_actions(direction: float, delta: float)-> void:
 
 	# dashing
 	if Input.is_action_just_pressed("dash"):
-		dash.start_dashing()
+		if can_dash:
+			is_dashing = true
+			can_dash = false
+			dash_duration_timer.start()
+			dash_cooldown_timer.start()
 
 func apply_gravity(delta: float)-> void:
 	if not is_on_floor():
 		velocity.y += gravity * player_stats.GRAVITY_SCALE * delta
 
 func handle_acceleration(direction: float, delta: float)-> void:
-	var current_speed: float = dash.get_speed() if dash.get_is_dashing() else player_stats.SPEED
-	var current_acceleration: float = dash.get_acceleration() if dash.get_is_dashing() else player_stats.ACCELERATION
+	var current_speed: float = player_stats.DASH_SPEED if is_dashing else player_stats.SPEED
+	var current_acceleration: float = player_stats.DASH_ACCELERATION if is_dashing else player_stats.ACCELERATION
 
 	if direction:
 		velocity.x = move_toward(velocity.x, current_speed * direction, current_acceleration * delta)
@@ -112,3 +126,9 @@ func update_animation(direction: float)-> void:
 			animated_sprite.play("run")
 	else:
 		animated_sprite.play("jump")
+
+func _on_dash_duration_timer_timeout()-> void:
+	is_dashing = false
+
+func _on_dash_cooldown_timeout()-> void:
+	can_dash = true
