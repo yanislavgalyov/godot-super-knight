@@ -202,3 +202,11 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActionableFinder"]
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_1utrf")
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="WallTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
