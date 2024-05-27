@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export_range(0, 10) var wall_jump_frames: int = 4
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var physics_ticks_per_second = ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
+var physics_ticks_per_second = ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # Engine.physics_ticks_per_second
 
 @onready var animated_sprite = $AnimatedSprite2D as AnimatedSprite2D
 @onready var actionable_finder = $ActionableFinder as Area2D
@@ -125,7 +125,10 @@ func update_animation(direction: float)-> void:
 		else:
 			animated_sprite.play("run")
 	else:
-		animated_sprite.play("jump")
+		if velocity.y > 0.0:
+			animated_sprite.play("fall")
+		else:
+			animated_sprite.play("jump")
 
 func _on_dash_duration_timer_timeout()-> void:
 	is_dashing = false
