@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var player_stats: PlayerStats
 @export_range(0, 10) var coyote_frames: int = 4
 @export_range(0, 10) var wall_jump_frames: int = 4
+@export_range(0, 10) var jump_buffer_frames: int = 4
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var physics_ticks_per_second = ProjectSettings.get_setting("physics/common/physics_ticks_per_second") # Engine.physics_ticks_per_second
@@ -13,11 +14,14 @@ var physics_ticks_per_second = ProjectSettings.get_setting("physics/common/physi
 @onready var wall_timer = $WallTimer as Timer
 @onready var dash_duration_timer = $DashDurationTimer as Timer
 @onready var dash_cooldown_timer = $DashCooldownTimer as Timer
+@onready var jump_buffer_timer = $JumpBufferTimer as Timer
 
 var was_wall_normal: Vector2
 
 var is_dashing: bool = false
 var can_dash: bool = true
+
+var jump_buffer: bool = false
 
 func _ready()-> void:
 	# https://www.reddit.com/r/godot/comments/16bormn/comment/jzgsdyd/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
@@ -31,6 +35,9 @@ func _ready()-> void:
 
 	dash_cooldown_timer.wait_time = player_stats.DASH_COOLDOWN
 	dash_cooldown_timer.timeout.connect(_on_dash_cooldown_timeout)
+
+	jump_buffer_timer.wait_time = float(jump_buffer_frames) / physics_ticks_per_second
+	jump_buffer_timer.timeout.connect(_on_jump_buffer_timeout)
 
 func _physics_process(delta: float)-> void:
 	if Input.is_action_just_pressed("interact"):
@@ -68,15 +75,21 @@ func _physics_process(delta: float)-> void:
 	update_animation(direction)
 
 func handle_actions(direction: float, delta: float)-> void:
-	# normal jump
-	if (is_on_floor() or coyote_timer.time_left > 0.0) and Input.is_action_just_pressed("jump"):
-		velocity.y = player_stats.JUMP_VELOCITY
-		coyote_timer.stop()
 
-	# wall jump
-	if  wall_timer.time_left > 0.0 and Input.is_action_just_pressed("jump"):
-		if direction == was_wall_normal.x:
-			velocity = Vector2(move_toward(velocity.x, player_stats.SPEED * direction, player_stats.ACCELERATION * delta), player_stats.JUMP_VELOCITY)
+	if Input.is_action_just_pressed("jump") or jump_buffer:
+		# normal jump
+		if is_on_floor() or coyote_timer.time_left > 0.0:
+			velocity.y = player_stats.JUMP_VELOCITY
+			coyote_timer.stop()
+			jump_buffer_timer.stop()
+			jump_buffer = false
+		# wall jump
+		elif wall_timer.time_left > 0.0:
+			if direction == was_wall_normal.x:
+				velocity = Vector2(move_toward(velocity.x, player_stats.SPEED * direction, player_stats.ACCELERATION * delta), player_stats.JUMP_VELOCITY)
+		elif not jump_buffer:
+			jump_buffer = true
+			jump_buffer_timer.start()
 
 	# dashing
 	if Input.is_action_just_pressed("dash"):
@@ -135,3 +148,6 @@ func _on_dash_duration_timer_timeout()-> void:
 
 func _on_dash_cooldown_timeout()-> void:
 	can_dash = true
+
+func _on_jump_buffer_timeout()-> void:
+	jump_buffer = false
