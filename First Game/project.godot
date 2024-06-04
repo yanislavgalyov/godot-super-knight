@@ -11,16 +11,16 @@ config_version=5
 [application]
 
 config/name="godot-super-knight"
-run/main_scene="res://scenes/game.tscn"
+run/main_scene="res://scenes/gameplay.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Music="*res://scenes/music.tscn"
-DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
-AutoloadSettings="*res://scripts/autloloads/autoload_settings.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+AutoloadSettings="*res://scripts/autloloads/autoload_settings.gd"
+Music="*res://scenes/music.tscn"
+SceneCoordinator="*res://scripts/autloloads/scene_coordinator.gd"
 
 [dialogue_manager]
 
@@ -30,11 +30,12 @@ general/balloon_path="res://scenes/balloon.tscn"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/mode=4
 window/vsync/vsync_mode=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [input]
 
@@ -68,6 +69,11 @@ interact={
 pause={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":80,"key_label":0,"unicode":112,"echo":false,"script":null)
+]
+}
+test={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":84,"key_label":0,"unicode":116,"echo":false,"script":null)
 ]
 }
 
