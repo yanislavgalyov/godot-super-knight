@@ -11,6 +11,9 @@ func _ready()-> void:
 
 func action()-> void:
 	if dialogue_resource and dialogue_start:
+		# DialogueManager.show_dialogue_balloon_scene(Balloon, dialogue_resource, dialogue_start)
+		# DialogueManager.show_dialogue_balloon(dialogue_resource, dialogue_start)
+
 		var balloon: Node = Balloon.instantiate()
 		get_tree().current_scene.add_child(balloon)
 		balloon.start(dialogue_resource, dialogue_start)
