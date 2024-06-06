@@ -75,6 +75,9 @@ func _physics_process(delta: float)-> void:
 	update_animation(direction)
 
 func handle_actions(direction: float, delta: float)-> void:
+	# EXPERIMENTAL - control jump height, but it is not great when wall jumping
+	#if Input.is_action_just_released("jump") and velocity.y < 0:
+		#velocity.y = player_stats.JUMP_VELOCITY / 2
 
 	if Input.is_action_just_pressed("jump") or jump_buffer:
 		# normal jump
@@ -100,8 +103,9 @@ func handle_actions(direction: float, delta: float)-> void:
 			dash_cooldown_timer.start()
 
 func apply_gravity(delta: float)-> void:
+	var gravity_scale: float = player_stats.GRAVITY_SCALE_UP if velocity.y < 0.0 else player_stats.GRAVITY_SCALE_DOWN
 	if not is_on_floor():
-		velocity.y += gravity * player_stats.GRAVITY_SCALE * delta
+		velocity.y += gravity * gravity_scale * delta
 
 func handle_acceleration(direction: float, delta: float)-> void:
 	var current_speed: float = player_stats.DASH_SPEED if is_dashing else player_stats.SPEED

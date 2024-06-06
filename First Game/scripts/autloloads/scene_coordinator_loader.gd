@@ -1,4 +1,4 @@
-extends Node
+extends CanvasLayer
 class_name SceneCoordinatorLoader
 
 var _internal_key: String

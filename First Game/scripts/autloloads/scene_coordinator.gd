@@ -1,7 +1,7 @@
 extends Node
 
-# HACK: Autoloading classes and class_name actually conflict each other (if a class happens to have both and if they are the same). A class you set up for auto-load, you cant set a class_name in its script, because then the parser/compiler/editor wouldnt know if you want to access the Singleton in the autoload or the Script referenced with the class_name
-# SRC: https://github.com/baconandgames/scene-manager-plus-v1.1
+# HACK - Autoloading classes and class_name actually conflict each other (if a class happens to have both and if they are the same). A class you set up for auto-load, you cant set a class_name in its script, because then the parser/compiler/editor wouldnt know if you want to access the Singleton in the autoload or the Script referenced with the class_name
+# SRC - https://github.com/baconandgames/scene-manager-plus-v1.1
 
 # internal signals
 signal _content_finished_loading(key:String, content: Node)
@@ -139,7 +139,7 @@ func _add_loading_screen(key: String)-> void:
 	var scene = get_or_set(item._loader_path)
 	var instance: Node = scene.instantiate()
 
-	# TODO: this is not good way to pass data
+	# TODO: how to improve this data pass
 	if instance is SceneCoordinatorLoader:
 		instance.set_key(key)
 
@@ -231,6 +231,11 @@ func _on_content_finished_loading(key:String, loaded_scene: Node2D)-> void:
 	if item._wait_time > 0.0:
 		await get_tree().create_timer(item._wait_time).timeout
 
+	if item._old_scene and not item._old_scene.is_queued_for_deletion() and item._old_scene != get_tree().root:
+		item._old_scene.queue_free()
+		# HACK - fix for Phantom Camera error "Only one PhantomCameraHost can exist in a scene"
+		await item._old_scene.tree_exited
+
 	item._new_scene_parent.add_child(loaded_scene)
 	if item._new_scene_index != -1:
 		item._new_scene_parent.move_child(loaded_scene, item._new_scene_index)
@@ -239,8 +244,5 @@ func _on_content_finished_loading(key:String, loaded_scene: Node2D)-> void:
 
 	if item._new_scene_should_transform and loaded_scene is Node2D  and item._old_scene is Node2D:
 		loaded_scene.transform = item._old_scene.transform
-
-	if item._old_scene and not item._old_scene.is_queued_for_deletion() and item._old_scene != get_tree().root:
-		item._old_scene.queue_free()
 
 	_clean_up(key)

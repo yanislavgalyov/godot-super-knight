@@ -21,6 +21,7 @@ DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 AutoloadSettings="*res://scripts/autloloads/autoload_settings.gd"
 Music="*res://scenes/music.tscn"
 SceneCoordinator="*res://scripts/autloloads/scene_coordinator.gd"
+AutoloadMessageBus="*res://scripts/autloloads/autoload_message_bus.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 
 [dialogue_manager]

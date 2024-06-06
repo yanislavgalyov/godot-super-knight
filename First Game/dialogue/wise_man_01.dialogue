@@ -1,11 +1,22 @@
 ~ wise_man_end_of_word
 
 Alaric the Sage: [[Hi|Hello|Howdy]], super-knight. This is the end of the world. Turn back and find your destiny elsewhere!
+if score < 5 # extra_states has no actual ref key, it is looking for this property in all extra states
+	Alaric the Sage: Go get some gold!
 
 => END
 
 ~ wise_man_end_of_the_level
 
-Alaric the Sage: So you made it!
+if score >= 5
+	Alaric the Sage: So you made it![do AutoloadMessageBus.end_of_level.emit()]
+else
+	Alaric the Sage: I need more gold...
+
+=> END
+
+~ the_end
+
+Alaric the Devil: And now you die!
 
 => END

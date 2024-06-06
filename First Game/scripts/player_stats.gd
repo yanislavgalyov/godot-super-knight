@@ -13,4 +13,5 @@ class_name PlayerStats
 @export var JUMP_VELOCITY: float = -300.0
 @export var AIR_RESISTANCE: float = 200.0
 @export var AIR_ACCELERATION: float = 400.0
-@export var GRAVITY_SCALE: float = 1.0
+@export var GRAVITY_SCALE_UP: float = 1.0
+@export var GRAVITY_SCALE_DOWN: float = 2.0

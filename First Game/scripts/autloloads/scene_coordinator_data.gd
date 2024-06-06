@@ -14,7 +14,7 @@ var _new_scene_parent: Node
 var _new_scene_index: int = -1
 var _new_scene_should_transform: bool = false
 
-# HACK: to get rid of The class variable "..." is declared but never used in the script.
+# HACK - to get rid of The class variable "..." is declared but never used in the script.
 func _get_all()-> Array:
 	return [
 		_loader_path,

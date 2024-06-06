@@ -4,6 +4,8 @@ var indices: Array[int]
 var current: int = 0
 
 func _ready()-> void:
+	AutoloadMessageBus.end_of_level.connect(on_level_end)
+
 	randomize()
 	var children = $Coins.get_children()
 	indices = get_random_indices(children)
@@ -13,6 +15,7 @@ func _physics_process(_delta)-> void:
 		var children = $Coins.get_children()
 		if not children.is_empty() and current < len(indices):
 			var random_chosen = children[indices[current]]
+			# EXPERIMENTAL - trying out SceneCoordinator's methods
 			#SceneCoordinator.swap_scenes(
 				#"",
 				#0.0,
@@ -49,3 +52,9 @@ func get_random_indices(array: Array)-> Array[int]:
 
 	return result
 
+func on_level_end()-> void:
+	SceneCoordinator.switch_scenes(
+		"",
+		0.0,
+		"res://scenes/portal.tscn",
+		%EndOfLevelMarker)
